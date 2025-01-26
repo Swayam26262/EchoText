@@ -1,29 +1,39 @@
-import { useState } from 'react'
-
-
+import { useState, useEffect } from 'react';
+import HomePage from './components/HomePage';
+import Header from './components/Header';
+import FileDisplay from './components/FileDisplay';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [file, setFile] = useState(null);
+  const [audio, setAudio] = useState(null);
+
+  const isAudioAvailable = file || audio;
+
+  function resetAudio() {
+    setFile(null);
+    setAudio(null);
+  }
+
+  useEffect(() => {
+    
+    console.log(audio);
+  }, [audio]);
 
   return (
-    <div className='flex flex-col  max-w-[1000px] mx-auto w-full'> 
+    <div className='flex flex-col max-w-[1000px] mx-auto w-full'>
       <section className='min-h-screen flex flex-col'>
-        <header className='flex items-center justify-between gap-4 p-4' href='#'>
-          <h1>Echo<span className='text-blue-400'>Text</span></h1>
-          <button className='flex items-center gap-2'>
-            <p>New</p>
-            <i class="fa-solid fa-plus"></i>
-          </button>
-        </header>
-        <main className='flex-1 bg-green-400 p-4 flex flex-col justify-center'>
-
-        </main>
+        <Header />
+        {isAudioAvailable ? (
+          <FileDisplay resetAudio={resetAudio} file={file} audio={audio} />
+        ) : (
+          <HomePage setFile={setFile} setAudio={setAudio} />
+        )}
       </section>
       <footer>
-
+        {/* Footer content */}
       </footer>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
